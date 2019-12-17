@@ -13,6 +13,7 @@ import com.vaadin.ui.UI;
 import de.martcre.roxy.objectshaper.devutil.IconView;
 import de.martcre.roxy.objectshaper.home.HomeView;
 import de.martcre.roxy.objectshaper.root.ObjectshaperDesign;
+import de.martcre.roxy.tabber.TabberView;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -41,6 +42,7 @@ public class ObjectshaperUI extends UI {
         MenuItem views = getRootDesign().getMenu().addItem("Views");
         views.addItem("Home", c -> {UI.getCurrent().getNavigator().navigateTo(HomeView.VIEW_NAME);});
         views.addItem("Icon Explorer", c -> {UI.getCurrent().getNavigator().navigateTo(IconView.VIEW_NAME);});
+        views.addItem("Tabber", c -> {UI.getCurrent().getNavigator().navigateTo(TabberView.VIEW_NAME);});
     }
     
     private ObjectshaperDesign getRootDesign() {

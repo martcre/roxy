@@ -1,9 +1,6 @@
 package de.martcre.roxy.objectshaper.root;
 
-import javax.inject.Inject;
-
 import com.vaadin.annotations.DesignRoot;
-import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
@@ -19,9 +16,6 @@ public class ObjectshaperDesign extends VerticalLayout {
 	private MenuBar infobar;
 	private VerticalLayout sidebar;
 	private MenuItem sidebarToggle;
-
-	@Inject
-	CDIViewProvider viewProvider;
 
 	public ObjectshaperDesign() {
 		Design.read(this);
