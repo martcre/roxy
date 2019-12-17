@@ -13,13 +13,12 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.declarative.DesignContext;
-import com.vaadin.ui.themes.ValoTheme;
 
 @CDIView(HomeView.VIEW_NAME)
 @SuppressWarnings("serial")
 public class HomeView extends CustomComponent implements View {
 	
-	public static final String VIEW_NAME = "home";
+	public static final String VIEW_NAME = "";
 	
 	public HomeView() {
 		VerticalLayout layout = new VerticalLayout();
@@ -42,6 +41,12 @@ public class HomeView extends CustomComponent implements View {
 		
 		layout.addComponent(lbl);
 		layout.addComponent(menuBar);
+		
+		
+		
+		
+		
+		
 	}
 	
 }

@@ -27,6 +27,13 @@ $v-app-background-color: hsl(210, 0%, 15%);
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
+//$roxy-margin: round(1.0 * $v-font-size);
+$roxy-margin: 10px;
+$v-layout-margin-top: $roxy-margin; 
+$v-layout-margin-bottom: $roxy-margin; 
+$v-layout-margin-left: $roxy-margin; 
+$v-layout-margin-right: $roxy-margin; 
+
 @import "../valo/valo.scss";
 
 @mixin roxy {

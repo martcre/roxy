@@ -1,13 +1,16 @@
 package de.martcre.roxy.objectshaper;
 
 import javax.inject.Inject;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.cdi.CDIUI;
 import com.vaadin.cdi.CDIViewProvider;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.UI;
 
+import de.martcre.roxy.objectshaper.devutil.IconView;
 import de.martcre.roxy.objectshaper.home.HomeView;
 import de.martcre.roxy.objectshaper.root.ObjectshaperDesign;
 
@@ -30,10 +33,14 @@ public class ObjectshaperUI extends UI {
 	
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+    	getPage().setTitle("ROXY Admin");
         setContent(getRootDesign());
         setNavigator(new Navigator(this, getRootDesign().getViewport()));
         getNavigator().addProvider(viewProvider);
-//        getNavigator().navigateTo(HomeView.VIEW_NAME);
+        
+        MenuItem views = getRootDesign().getMenu().addItem("Views");
+        views.addItem("Home", c -> {UI.getCurrent().getNavigator().navigateTo(HomeView.VIEW_NAME);});
+        views.addItem("Icon Explorer", c -> {UI.getCurrent().getNavigator().navigateTo(IconView.VIEW_NAME);});
     }
     
     private ObjectshaperDesign getRootDesign() {

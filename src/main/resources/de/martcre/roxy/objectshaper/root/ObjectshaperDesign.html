@@ -6,16 +6,23 @@
 <body>
 
 <vaadin-vertical-layout size-full spacing="false" margin="false">
-	<vaadin-horizontal-layout style-name="roxy_header" width="100%" spacing="false">
+	<vaadin-horizontal-layout style-name="roxy_header" width-full spacing="false">
 		<vaadin-label style-name="roxy_logo">ROXY Admin</vaadin-label>
 		<vaadin-menu-bar :expand margin="false" spacing="false" style-name="small borderless" _id="menu">
 		</vaadin-menu-bar>
-		<vaadin-menu-bar margin="false" spacing="false" style-name="small borderless" _id="infoBar">
+		<vaadin-menu-bar margin="false" spacing="false" style-name="small borderless" _id="infobar">
 			<menu>martin</menu>
-			<menu icon="fonticon://Vaadin-Icons/e73d"></menu>
 		</vaadin-menu-bar>
 	</vaadin-horizontal-layout>
-	<vaadin-vertical-layout _id="viewport" size-full :expand margin="false"/>
+	<vaadin-absolute-layout :expand>
+			
+		<vaadin-vertical-layout _id="viewport" size-full :expand margin="false"/>
+		<vaadin-vertical-layout _id="sidebar" height-full width="300px" :top="0px" :right="0px" margin="false">
+			<vaadin-panel size-full/>
+		</vaadin-vertical-layout>
+
+	
+	</vaadin-absolute-layout>
 </vaadin-vertical-layout>
 
 </body>

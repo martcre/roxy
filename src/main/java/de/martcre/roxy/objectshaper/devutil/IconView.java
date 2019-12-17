@@ -66,7 +66,7 @@ public class IconView extends CustomComponent implements View {
 			mainLayout.setExpandRatio(scrollPanel, 1.0f);
 			
 			scrollPanel.setContent(getIconLayout());
-			renderIcons(".*");
+			renderIcons("");
 		}
 		return mainLayout;
 	}
@@ -78,7 +78,13 @@ public class IconView extends CustomComponent implements View {
 		return iconLayout;
 	}
 	
-	private void renderIcons(String filter) {
+	private void renderIcons(String aFilter) {
+		String filter;
+		if (aFilter == null || aFilter.isEmpty()) {
+			filter = ".*";
+		} else {
+			filter = ".*" + aFilter + ".*";
+		}
 		getIconLayout().removeAllComponents();
 		for (VaadinIcons icon : Stream.of(VaadinIcons.values())
 				.filter(icon -> icon.name().matches(filter)).toArray(VaadinIcons[]::new)) {
