@@ -2,6 +2,9 @@ package de.martcre.roxy.tabber;
 
 import javax.inject.Inject;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.Button;
@@ -14,6 +17,9 @@ import de.martcre.roxy.backend.DummyService;
 @CDIView(TabberView.VIEW_NAME)
 public class TabberView extends CustomComponent implements View {
 	
+	protected static Logger logger = LogManager.getLogger(TabberView.class);
+	
+	
 	@Inject
 	private DummyService dummyService;
 
@@ -25,6 +31,13 @@ public class TabberView extends CustomComponent implements View {
 		setSizeFull();
 		
 		getDesign().getViewport().addComponent(new Button("Test Hello World", c-> {
+			
+			logger.info("INFO");
+			logger.warn("WARN");
+			logger.debug("DEBUG");
+			logger.error("ERROR");
+			logger.fatal("FATAL");
+			logger.trace("TRACE");
 			
 			String rtn = dummyService.helloWorld("Tabber");
 			Notification.show(rtn);
