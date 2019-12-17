@@ -3,15 +3,30 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>roxy-ear</artifactId>
+	<packaging>ear</packaging>
+	<name>roxy-ear</name>
 	
 	<parent>
 		<groupId>de.martcre.roxy</groupId>
 		<artifactId>roxy</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>roxy-ear</artifactId>
-	<packaging>ear</packaging>
-	<name>roxy-ear</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>de.martcre.roxy</groupId>
+			<artifactId>roxy-backend</artifactId>
+			<type>ejb</type>
+		</dependency>
+		<dependency>
+			<groupId>de.martcre.roxy</groupId>
+			<artifactId>roxy-ui</artifactId>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -19,16 +34,34 @@
 				<artifactId>maven-ear-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
-					<ejbModule>
-						<groupId>de.martcre.roxy</groupId>
-						<artifactId>roxy-backend</artifactId>
-						<bundleFilename>roxy-backend.jar</bundleFilename>
-					</ejbModule>
-					<webModule>
-						<groupId>de.martcre.roxy</groupId>
-						<artifactId>roxy-ui</artifactId>
-						<contextRoot>/roxy</contextRoot>
-					</webModule>
+					<version>7</version>
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<final-name>roxy-ear-${revision}</final-name>
+					<modules>
+						<ejbModule>
+							<uri>roxy-backend-${revision}.jar</uri>
+							<groupId>de.martcre.roxy</groupId>
+							<artifactId>roxy-backend</artifactId>
+						</ejbModule>
+						<webModule>
+							<uri>roxy-ui-${revision}</uri>
+							<groupId>de.martcre.roxy</groupId>
+							<artifactId>roxy-ui</artifactId>
+							<contextRoot>/roxy</contextRoot>
+						</webModule>
+					</modules>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						<manifestEntries>
+							<git-commit>${gitId}</git-commit>
+							<version>${project.version}</version>
+							<timestamp>${maven.build.timestamp}</timestamp>
+						</manifestEntries>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
