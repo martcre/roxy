@@ -12,8 +12,6 @@ public class DummyService {
 	
 	
 	public String helloWorld(String name) {
-		logger.error("arrr");
-		logger.trace("psst");
 		return "Hello " + name;
 	}
 

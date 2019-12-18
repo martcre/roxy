@@ -68,5 +68,8 @@ $v-layout-margin-right: $roxy-margin;
     }
   }
   
+  .v-absolutelayout-wrapper-roxy_sidebar {
+    z-index: 9999999;
+  }
   
 }
