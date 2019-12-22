@@ -12,5 +12,5 @@ public interface TabberDataService {
 	public BackEndDataProvider<Row, ?> getDataProvider();
 	
 	public List<Column> getColumns();
-
+	
 }
