@@ -18,7 +18,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<vaadin.version>8.9.3</vaadin.version>
+		<vaadin.plugin.version>8.9.3</vaadin.plugin.version>
+		<jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
+		<vaadin.widgetset.mode>local</vaadin.widgetset.mode>
+		<org.apache.metamodel.version>5.3.1</org.apache.metamodel.version>
+		<org.apache.logging.log4j.version>2.13.0</org.apache.logging.log4j.version>
 	</properties>
+	
+	<repositories>
+		<repository>
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+	</repositories>
+	
 	
 	<dependencyManagement>
 		<dependencies>
@@ -34,6 +48,33 @@
 				<version>${revision}</version>
 				<type>war</type>
 			</dependency>
+			<dependency>
+				<groupId>com.vaadin</groupId>
+				<artifactId>vaadin-bom</artifactId>
+				<version>${vaadin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.metamodel</groupId>
+				<artifactId>MetaModel-core</artifactId>
+				<version>${org.apache.metamodel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.metamodel</groupId>
+				<artifactId>MetaModel-pojo</artifactId>
+				<version>${org.apache.metamodel.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${org.apache.logging.log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${org.apache.logging.log4j.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	
@@ -47,4 +88,47 @@
 		<module>roxy-ear</module>
 	</modules>
 
+
+	<profiles>
+		<profile>
+			<!-- Vaadin pre-release repositories -->
+			<id>vaadin-prerelease</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<repositories>
+				<repository>
+					<id>vaadin-prereleases</id>
+					<url>http://maven.vaadin.com/vaadin-prereleases</url>
+				</repository>
+				<repository>
+					<id>vaadin-snapshots</id>
+					<url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>vaadin-prereleases</id>
+					<url>http://maven.vaadin.com/vaadin-prereleases</url>
+				</pluginRepository>
+				<pluginRepository>
+					<id>vaadin-snapshots</id>
+					<url>https://oss.sonatype.org/content/repositories/vaadin-snapshots/</url>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
 </project>
