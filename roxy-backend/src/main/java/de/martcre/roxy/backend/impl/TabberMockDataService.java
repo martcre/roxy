@@ -89,7 +89,9 @@ public class TabberMockDataService implements TabberDataService {
 						 */
 						mmQuery.setFirstRow(query.getOffset() + 1);
 						mmQuery.setMaxRows(query.getLimit());
-
+						
+						logger.debug(mmQuery.toSql());
+						
 						/*
 						 * Execute the MetaModel query and return a stream of result rows.
 						 */
@@ -113,7 +115,9 @@ public class TabberMockDataService implements TabberDataService {
 						 * Apply filtering:
 						 */
 						applyFiltering(mmQuery, query);
-
+						
+						logger.debug(mmQuery.toSql());
+						
 						DataSet dataSet = mmDataContext.executeQuery(mmQuery);
 
 						if (dataSet.next()) {
