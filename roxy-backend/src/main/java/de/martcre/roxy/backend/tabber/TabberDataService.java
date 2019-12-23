@@ -1,4 +1,4 @@
-package de.martcre.roxy.backend;
+package de.martcre.roxy.backend.tabber;
 
 import java.util.List;
 import java.util.Set;

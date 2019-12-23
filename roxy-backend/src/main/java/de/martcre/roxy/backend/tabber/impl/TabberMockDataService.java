@@ -1,4 +1,4 @@
-package de.martcre.roxy.backend.impl;
+package de.martcre.roxy.backend.tabber.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +24,9 @@ import com.vaadin.data.provider.Query;
 import com.vaadin.data.provider.QuerySortOrder;
 import com.vaadin.shared.data.sort.SortDirection;
 
-import de.martcre.roxy.backend.TabberDataService;
 import de.martcre.roxy.backend.dao.DummyDAO;
 import de.martcre.roxy.backend.dto.DummyDTO;
+import de.martcre.roxy.backend.tabber.TabberDataService;
 
 @Stateless
 public class TabberMockDataService implements TabberDataService {

@@ -10,7 +10,7 @@ import com.vaadin.cdi.CDIView;
 import com.vaadin.navigator.View;
 import com.vaadin.ui.CustomComponent;
 
-import de.martcre.roxy.backend.TabberDataService;
+import de.martcre.roxy.backend.tabber.TabberDataService;
 
 @SuppressWarnings("serial")
 @CDIView(TabberView.VIEW_NAME)

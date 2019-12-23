@@ -24,7 +24,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.themes.ValoTheme;
 
-import de.martcre.roxy.backend.TabberDataService;
+import de.martcre.roxy.backend.tabber.TabberDataService;
 
 /**
  * TabberDataExplorer is a generic component to show Data in a Grid. It provides
