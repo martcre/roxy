@@ -1,9 +1,14 @@
 package de.martcre.roxy.tabber;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,12 +18,18 @@ import org.apache.metamodel.query.SelectItem;
 import org.apache.metamodel.schema.Column;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.provider.CallbackDataProvider;
 import com.vaadin.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.data.provider.ListDataProvider;
+import com.vaadin.data.provider.Query;
+import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.event.ShortcutListener;
+import com.vaadin.shared.ui.datefield.DateTimeResolution;
+import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.DateTimeField;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.components.grid.HeaderRow;
@@ -103,76 +114,211 @@ public class TabberDataExplorer extends CustomComponent {
 
 			if (column.getType().isLiteral() || column.getType().isNumber() || column.getType().isBinary()
 					|| column.getType().isTimeBased()) {
-
 				/*
-				 * The fields required for the Filtering and Operator. Add the general Shortcut
-				 * Listener to enable updating the filtering on ENTER.
+				 * The generic Filter field and Operator field, which are set into the layout.
 				 */
-				TextField filterField = new TextField();
-				filterField.addShortcutListener(getUpdateFilterOnEnter());
-				ComboBox<TabberOperatorType> operatorField = new ComboBox<TabberOperatorType>();
-				operatorField.addShortcutListener(getUpdateFilterOnEnter());
+				AbstractComponent genericFilterField;
+				AbstractComponent genericOperatorField;
 
 				/*
-				 * Bind the filterField and operatorField to the filterBinder into a custom
-				 * FilterItemParameter structure.
+				 * Initialize the map entry for the column:
 				 */
 				if (!getFilterBinder().getBean().containsKey(column)) {
 					getFilterBinder().getBean().put(column, new FilterItemParameter());
 					getFilterBinder().getBean().get(column).selectItem = new SelectItem(column);
 				}
-				getFilterBinder().forField(filterField).bind(map -> map.get(column).operand,
-						(map, value) -> map.get(column).operand = value);
-				getFilterBinder().forField(operatorField).bind(map -> map.get(column).operator,
-						(map, value) -> map.get(column).operator = value);
 
 				/*
-				 * Setup of the filterField.
-				 */
-				filterField.setPlaceholder("Filter");
-				filterField.setWidth("100%");
-				filterField.addStyleNames(ValoTheme.TEXTFIELD_TINY);
-				filterRow.getCell(gridColumn).setComponent(filterField);
-
-				/*
-				 * Setup of the operatorField.
-				 */
-				operatorField.setWidth("100%");
-				operatorField.addStyleNames(ValoTheme.COMBOBOX_TINY);
-				/*
-				 * Set valid OperatorTypes for Literals:
+				 * Set filter for Literals:
 				 */
 				if (column.getType().isLiteral()) {
-					operatorField.setDataProvider(new ListDataProvider<TabberOperatorType>(
-							TabberOperatorType.getListOfLiteralTabberOperatorTypes()));
+					/*
+					 * Create specific fields:
+					 */
+					TextField filterField = new TextField();
+					ComboBox<TabberOperatorType> operatorField = new ComboBox<>();
+
+					/*
+					 * Bind with validation, if required:
+					 */
+					getFilterBinder().forField(filterField).bind(map -> map.get(column).operand,
+							(map, value) -> map.get(column).operand = value);
+					getFilterBinder().forField(operatorField).bind(map -> map.get(column).operator,
+							(map, value) -> map.get(column).operator = value);
+
+					/*
+					 * Setup of the filterField.
+					 */
+					filterField.setPlaceholder("Filter");
+					filterField.setWidth("100%");
+					filterField.addStyleNames(ValoTheme.TEXTFIELD_TINY);
+
+					/*
+					 * Setup of the operatorField.
+					 */
+					operatorField.setWidth("100%");
+					operatorField.addStyleNames(ValoTheme.COMBOBOX_TINY);
+
+					operatorField.setDataProvider(
+							new ListDataProvider<>(TabberOperatorType.getListOfLiteralTabberOperatorTypes()));
 					operatorField.setValue(TabberOperatorType.LIKE);
+
+					/*
+					 * Pass the literal specific fields to the generic fields:
+					 */
+					genericFilterField = filterField;
+					genericOperatorField = operatorField;
 				}
 				/*
-				 * Set valid OperatorTypes for Numbers:
+				 * Set filter for Numbers:
 				 */
 				else if (column.getType().isNumber()) {
-					operatorField.setDataProvider(new ListDataProvider<TabberOperatorType>(
-							TabberOperatorType.getListOfNumberTabberOperatorTypes()));
+					/*
+					 * Create specific fields:
+					 */
+					TextField filterField = new TextField();
+					ComboBox<TabberOperatorType> operatorField = new ComboBox<>();
+
+					/*
+					 * Bind with validation, if required:
+					 */
+					getFilterBinder().forField(filterField)
+							.withValidator(new RegexpValidator("Only Numbers allowed.", "[\\d|\\.]*"))
+							.bind(map -> map.get(column).operand, (map, value) -> map.get(column).operand = value);
+					getFilterBinder().forField(operatorField).bind(map -> map.get(column).operator,
+							(map, value) -> map.get(column).operator = value);
+
+					/*
+					 * Setup of the filterField.
+					 */
+					filterField.setPlaceholder("Filter");
+					filterField.setWidth("100%");
+					filterField.addStyleNames(ValoTheme.TEXTFIELD_TINY);
+
+					/*
+					 * Setup of the operatorField.
+					 */
+					operatorField.setWidth("100%");
+					operatorField.addStyleNames(ValoTheme.COMBOBOX_TINY);
+
+					operatorField.setDataProvider(
+							new ListDataProvider<>(TabberOperatorType.getListOfNumberTabberOperatorTypes()));
 					operatorField.setValue(TabberOperatorType.EQUALS_TO);
+
+					/*
+					 * Pass the literal specific fields to the generic fields:
+					 */
+					genericFilterField = filterField;
+					genericOperatorField = operatorField;
 				}
 				/*
-				 * Set valid OperatorTypes for Booleans:
+				 * Set filter for Booleans:
 				 */
 				else if (column.getType().isBoolean()) {
-					operatorField.setDataProvider(new ListDataProvider<TabberOperatorType>(
-							TabberOperatorType.getListOfBooleanTabberOperatorTypes()));
+					/*
+					 * Create specific fields:
+					 */
+					ComboBox<String> filterField = new ComboBox<>();
+					ComboBox<TabberOperatorType> operatorField = new ComboBox<>();
+
+					/*
+					 * Bind with validation, if required:
+					 */
+					getFilterBinder().forField(filterField).bind(map -> map.get(column).operand,
+							(map, value) -> map.get(column).operand = value);
+					getFilterBinder().forField(operatorField).bind(map -> map.get(column).operator,
+							(map, value) -> map.get(column).operator = value);
+
+					/*
+					 * Setup of the filterField.
+					 */
+					filterField.setPlaceholder("Filter");
+					filterField.setWidth("100%");
+					filterField.addStyleNames(ValoTheme.COMBOBOX_TINY);
+					filterField.setDataProvider(new ListDataProvider<>(Arrays.asList("", "true", "false")));
+					filterField.setValue("");
+
+					/*
+					 * Setup of the operatorField.
+					 */
+					operatorField.setWidth("100%");
+					operatorField.addStyleNames(ValoTheme.COMBOBOX_TINY);
+
+					operatorField.setDataProvider(
+							new ListDataProvider<>(TabberOperatorType.getListOfBooleanTabberOperatorTypes()));
 					operatorField.setValue(TabberOperatorType.EQUALS_TO);
+
+					/*
+					 * Pass the literal specific fields to the generic fields:
+					 */
+					genericFilterField = filterField;
+					genericOperatorField = operatorField;
 				}
 				/*
-				 * Set valid OperatorTypes for TimeBased:
+				 * Set filter for TimeBased:
 				 */
 				else if (column.getType().isTimeBased()) {
-					operatorField.setDataProvider(new ListDataProvider<TabberOperatorType>(
-							TabberOperatorType.getListOfTimeBasedTabberOperatorTypes()));
-					operatorField.setValue(TabberOperatorType.LIKE);
+					/*
+					 * Create specific fields:
+					 */
+					DateTimeField filterField = new DateTimeField();
+					filterField.setResolution(DateTimeResolution.SECOND);
+
+					ComboBox<TabberOperatorType> operatorField = new ComboBox<>();
+
+					/*
+					 * Bind with validation, if required:
+					 */
+					getFilterBinder().forField(filterField)
+							.bind(map -> ((map.get(column).operand != null)
+									? LocalDateTime.parse(map.get(column).operand)
+									: null), (map, value) -> map.get(column).operand = value.toString());
+					getFilterBinder().forField(operatorField).bind(map -> map.get(column).operator,
+							(map, value) -> map.get(column).operator = value);
+
+					/*
+					 * Setup of the filterField.
+					 */
+					filterField.setPlaceholder("Filter");
+					filterField.setWidth("100%");
+					filterField.addStyleNames(ValoTheme.DATEFIELD_TINY);
+
+					/*
+					 * Setup of the operatorField.
+					 */
+					operatorField.setWidth("100%");
+					operatorField.addStyleNames(ValoTheme.COMBOBOX_TINY);
+
+					operatorField.setDataProvider(
+							new ListDataProvider<>(TabberOperatorType.getListOfTimeBasedTabberOperatorTypes()));
+					operatorField.setValue(TabberOperatorType.EQUALS_TO);
+
+					/*
+					 * Pass the literal specific fields to the generic fields:
+					 */
+					genericFilterField = filterField;
+					genericOperatorField = operatorField;
+				}
+				/*
+				 * This section should never get invoked as only one of the above sections
+				 * should be invoked due to the outer if section.
+				 */
+				else {
+					genericFilterField = new TextField();
+					genericOperatorField = new ComboBox<>();
 				}
 
-				operatorRow.getCell(gridColumn).setComponent(operatorField);
+				/*
+				 * Add the Update Filter on Enter Listener to all fields:
+				 */
+				genericFilterField.addShortcutListener(getUpdateFilterOnEnter());
+				genericOperatorField.addShortcutListener(getUpdateFilterOnEnter());
+
+				/*
+				 * Add the fields to the layout:
+				 */
+				filterRow.getCell(gridColumn).setComponent(genericFilterField);
+				operatorRow.getCell(gridColumn).setComponent(genericOperatorField);
 			}
 		}
 	}
@@ -227,7 +373,7 @@ public class TabberDataExplorer extends CustomComponent {
 				.filter(item -> !(item.operand == null || item.operand.isEmpty()))
 				.toArray(FilterItemParameter[]::new)) {
 			Object operand;
-			
+
 			/*
 			 * If the OperatorType is IN or NOT_IN, split the operand on regex "\W*,\W*".
 			 */
@@ -235,18 +381,32 @@ public class TabberDataExplorer extends CustomComponent {
 				operand = parameter.operand.split("\\W*,\\W*");
 			}
 			/*
-			 * If the OperatorType is LIKE or NOT_LIKE, check it Wildcards should be added automatically.
+			 * If the OperatorType is LIKE or NOT_LIKE, check it Wildcards should be added
+			 * automatically.
 			 */
-			else if (parameter.operator == TabberOperatorType.LIKE || parameter.operator == TabberOperatorType.NOT_LIKE) {
+			else if (parameter.operator == TabberOperatorType.LIKE
+					|| parameter.operator == TabberOperatorType.NOT_LIKE) {
 				if (getDesign().getEnableAutomaticWildcards().getValue()) {
 					operand = "%" + parameter.operand + "%";
 				} else {
 					operand = parameter.operand;
 				}
+			}
+			/*
+			 * In case of TimeBased Column type, convert the ISO Encoded String to
+			 * java.util.Date.
+			 */
+			else if (parameter.selectItem.getColumn().getType().isTimeBased()) {
+				if (parameter.operand != null) {
+					operand = Date
+							.from(LocalDateTime.parse(parameter.operand).atZone(ZoneId.systemDefault()).toInstant());
+				} else {
+					operand = null;
+				}
 			} else {
 				operand = parameter.operand;
 			}
-			
+
 			filterItems.add(new FilterItem(parameter.selectItem, parameter.operator.getOperatorType(), operand));
 		}
 
@@ -260,7 +420,22 @@ public class TabberDataExplorer extends CustomComponent {
 	 */
 	private ConfigurableFilterDataProvider<Row, Void, Set<FilterItem>> getDataProvider() {
 		if (dataProvider == null) {
-			dataProvider = tabberDataService.createDataProvider();
+			CallbackDataProvider<Row, Set<FilterItem>> callbackDataProvider = new CallbackDataProvider<Row, Set<FilterItem>>(
+					new CallbackDataProvider.FetchCallback<Row, Set<FilterItem>>() {
+
+						@Override
+						public Stream<Row> fetch(Query<Row, Set<FilterItem>> query) {
+							return getTabberDataService().fetch(query);
+						}
+					}, new CallbackDataProvider.CountCallback<Row, Set<FilterItem>>() {
+
+						@Override
+						public int count(Query<Row, Set<FilterItem>> query) {
+							return getTabberDataService().count(query);
+						}
+					});
+
+			dataProvider = callbackDataProvider.withConfigurableFilter();
 		}
 		return dataProvider;
 	}

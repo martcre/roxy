@@ -1,14 +1,19 @@
 package de.martcre.roxy.backend.dao;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import de.martcre.roxy.backend.dto.AdressDTO;
 import de.martcre.roxy.backend.dto.DummyDTO;
 
 public class DummyDAO {
+	
+	private static List<DummyDTO> dummies = new ArrayList<>();
+	
 	private static String[] firstNames = new String[] { "Evia", "Amalia", "Ali", "Jarred", "Nadia", "Hipolito", "Yon",
 			"Detra", "Son", "Marcellus", "Yolonda", "Theo", "Jacqueline", "Mariela", "Johanne", "Kori", "Marchelle" };
 
@@ -17,6 +22,17 @@ public class DummyDAO {
 			"Reilly", "Tyler", "Farrell", "Parks" };
 
 	private static int dummyIdCounter;
+	
+	public static List<DummyDTO> getData() {
+		if (dummies.isEmpty()) {
+			if (dummies.isEmpty()) {
+				for (int i = 0; i < 10000; i++) {
+					dummies.add(DummyDAO.randomDummyGenerator());
+				}
+			}
+		}
+		return dummies;
+	}
 
 	private static int getNextDummyIdCounter() {
 		return (dummyIdCounter++);

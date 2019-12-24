@@ -78,9 +78,8 @@ public enum TabberOperatorType {
 	 * @return the list
 	 */
 	public static List<TabberOperatorType> getListOfTimeBasedTabberOperatorTypes() {
-		return Arrays.asList(TabberOperatorType.LIKE, TabberOperatorType.NOT_LIKE, TabberOperatorType.EQUALS_TO,
+		return Arrays.asList(TabberOperatorType.EQUALS_TO,
 				TabberOperatorType.DIFFERENT_FROM, TabberOperatorType.LESS_THAN, TabberOperatorType.GREATER_THAN,
-				TabberOperatorType.LESS_THAN_OR_EQUAL, TabberOperatorType.GREATER_THAN_OR_EQUAL, TabberOperatorType.IN,
-				TabberOperatorType.NOT_IN);
+				TabberOperatorType.LESS_THAN_OR_EQUAL, TabberOperatorType.GREATER_THAN_OR_EQUAL);
 	}
 }

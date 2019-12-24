@@ -42,6 +42,22 @@
 			<artifactId>MetaModel-pojo</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.apache.metamodel</groupId>
+			<artifactId>MetaModel-csv</artifactId>
+			<version>${org.apache.metamodel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.metamodel</groupId>
+			<artifactId>MetaModel-jdbc</artifactId>
+			<version>${org.apache.metamodel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.metamodel</groupId>
+			<artifactId>MetaModel-excel</artifactId>
+			<version>${org.apache.metamodel.version}</version>
+		</dependency>
+		
 		<!-- Backend Vaadin Dependencies -->
 		<dependency>
 			<groupId>com.vaadin</groupId>
