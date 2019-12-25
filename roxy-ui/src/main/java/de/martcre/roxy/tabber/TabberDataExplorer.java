@@ -36,6 +36,7 @@ import com.vaadin.ui.components.grid.HeaderRow;
 import com.vaadin.ui.themes.ValoTheme;
 
 import de.martcre.roxy.backend.tabber.TabberDataService;
+import de.martcre.roxy.desktop.Wrappable;
 
 /**
  * TabberDataExplorer is a generic component to show Data in a Grid. It provides
@@ -45,7 +46,7 @@ import de.martcre.roxy.backend.tabber.TabberDataService;
  *
  */
 @SuppressWarnings("serial")
-public class TabberDataExplorer extends CustomComponent {
+public class TabberDataExplorer extends CustomComponent implements Wrappable {
 
 	protected static Logger logger = LogManager.getLogger(TabberDataExplorer.class);
 
@@ -454,6 +455,11 @@ public class TabberDataExplorer extends CustomComponent {
 			design = new TabberDataExplorerDesign();
 		}
 		return design;
+	}
+
+	@Override
+	public String getWrapperCaption() {
+		return "Tabber Data Explorer";
 	}
 
 }

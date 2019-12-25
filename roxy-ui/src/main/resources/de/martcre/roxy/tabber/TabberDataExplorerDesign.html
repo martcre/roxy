@@ -6,17 +6,16 @@
 <body>
 
 <vaadin-vertical-layout size-full>
-<vaadin-popup-view description="Settings" :right>
-	<span class="v-icon v-icon-sliders" style="font-family: Vaadin-Icons;">&#xe6cf;</span>
-	<popup-content>
-		<vaadin-vertical-layout>
-			<vaadin-check-box _id="liveFilteringMode" caption="Enable Live Filtering Mode"/>
-			<vaadin-check-box _id="enableAutomaticWildcards" caption="Automatically add Wildcards"/>
-		</vaadin-vertical-layout>
-	</popup-content>
-</vaadin-popup-view>
-<vaadin-grid size-full :expand _id="grid" data-item-type="org.apache.metamodel.data.Row"/>
-
+	<vaadin-popup-view description="Settings" :right>
+		<span class="v-icon v-icon-sliders" style="font-family: Vaadin-Icons;">&#xe6cf;</span>
+		<popup-content>
+			<vaadin-vertical-layout>
+				<vaadin-check-box _id="liveFilteringMode" caption="Enable Live Filtering Mode"/>
+				<vaadin-check-box _id="enableAutomaticWildcards" caption="Automatically add Wildcards"/>
+			</vaadin-vertical-layout>
+		</popup-content>
+	</vaadin-popup-view>
+	<vaadin-grid size-full :expand _id="grid" data-item-type="org.apache.metamodel.data.Row"/>
 
 </vaadin-vertical-layout>
 

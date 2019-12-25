@@ -11,6 +11,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.ui.CustomComponent;
 
 import de.martcre.roxy.backend.tabber.TabberDataService;
+import de.martcre.roxy.desktop.DockedWrapper;
 
 @SuppressWarnings("serial")
 @CDIView(TabberView.VIEW_NAME)
@@ -38,7 +39,8 @@ public class TabberView extends CustomComponent implements View {
 	 */
 	@PostConstruct
 	private void initialize() {
-		getDesign().getViewport().addComponent(new TabberDataExplorer(tabberDataService));
+		getDesign().getViewport().addComponent(
+				new DockedWrapper(new TabberDataExplorer(tabberDataService), getDesign().getViewport()));
 	}
 
 	private TabberMainDesign getDesign() {
