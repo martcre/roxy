@@ -38,10 +38,12 @@
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
 					<modules>
 						<ejbModule>
+							<uri>roxy-backend-${revision}.jar</uri>
 							<groupId>de.martcre.roxy</groupId>
 							<artifactId>roxy-backend</artifactId>
 						</ejbModule>
 						<webModule>
+							<uri>roxy-ui-${revision}</uri>
 							<groupId>de.martcre.roxy</groupId>
 							<artifactId>roxy-ui</artifactId>
 							<contextRoot>/roxy</contextRoot>
