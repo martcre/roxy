@@ -39,13 +39,20 @@ public class TabberView extends CustomComponent implements View {
 	 */
 	@PostConstruct
 	private void initialize() {
-		getDesign().getViewport().addComponent(
-				new DockedWrapper(new TabberDataExplorer(tabberDataService), getDesign().getViewport()));
+		getDesign().getViewport().addComponent(new DockedWrapper(new TabberDataExplorer(tabberDataService),
+				getDesign().getViewport(), getDesign().getWrapperManager()));
+		
+		
+		getDesign().getViewport().addComponent(new DockedWrapper(new TabberDataExplorer(tabberDataService),
+				getDesign().getViewport(), getDesign().getWrapperManager()));
+		
+		
 	}
 
 	private TabberMainDesign getDesign() {
 		if (design == null) {
 			design = new TabberMainDesign();
+			design.getWrapperManager().setViewport(design.getViewport());
 		}
 		return design;
 	}

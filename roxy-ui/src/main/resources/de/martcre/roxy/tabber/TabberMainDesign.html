@@ -2,11 +2,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="package-mapping" content="roxy_desktop:de.martcre.roxy.desktop">
 </head>
 <body>
 
 <vaadin-vertical-layout size-full>
 	<vaadin-label style-name="h2">Tabber</vaadin-label>
+	<roxy_desktop-wrapper-manager _id="wrapperManager"/>
 	<vaadin-vertical-layout _id="viewport" size-full :expand margin="false"/>
 	
 </vaadin-vertical-layout>

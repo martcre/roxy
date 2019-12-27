@@ -11,7 +11,19 @@ public class UndockedWrapper extends Window {
 
 	private Wrappable subject;
 	private ComponentContainer parentComponentContainer;
+	private WrapperManager wrapperManager;
 
+	
+	
+	public UndockedWrapper(Wrappable subject, ComponentContainer parentComponentContainer, WrapperManager wrapperManager) {
+		this(subject, parentComponentContainer);
+		this.wrapperManager = wrapperManager;
+		if (this.wrapperManager != null) {
+			wrapperManager.registerWrapper(this);
+		}
+	}
+	
+	
 	public UndockedWrapper(Wrappable subject, ComponentContainer parentComponentContainer) {
 
 		this.subject = subject;
@@ -29,7 +41,7 @@ public class UndockedWrapper extends Window {
 		getDesign().setExpandRatio(subject, 1.0f);
 
 		this.addCloseListener(c -> {
-			transformToDocked();
+			dock();
 		});
 	}
 
@@ -40,9 +52,13 @@ public class UndockedWrapper extends Window {
 		return design;
 	}
 
-	private void transformToDocked() {
-		parentComponentContainer.addComponent(new DockedWrapper(this.subject, this.parentComponentContainer));
+	public void dock() {
+		parentComponentContainer.addComponent(new DockedWrapper(this.subject, this.parentComponentContainer, this.wrapperManager));
 		UI.getCurrent().removeWindow(this);
+	}
+	
+	public Wrappable getSubject() {
+		return subject;
 	}
 
 }
