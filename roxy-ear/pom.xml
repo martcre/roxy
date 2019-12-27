@@ -36,15 +36,12 @@
 				<configuration>
 					<version>7</version>
 					<defaultLibBundleDir>lib</defaultLibBundleDir>
-					<final-name>roxy-ear-${revision}</final-name>
 					<modules>
 						<ejbModule>
-							<uri>roxy-backend-${revision}.jar</uri>
 							<groupId>de.martcre.roxy</groupId>
 							<artifactId>roxy-backend</artifactId>
 						</ejbModule>
 						<webModule>
-							<uri>roxy-ui-${revision}</uri>
 							<groupId>de.martcre.roxy</groupId>
 							<artifactId>roxy-ui</artifactId>
 							<contextRoot>/roxy</contextRoot>
@@ -57,7 +54,6 @@
 							<addClasspath>true</addClasspath>
 						</manifest>
 						<manifestEntries>
-							<git-commit>${gitId}</git-commit>
 							<version>${project.version}</version>
 							<timestamp>${maven.build.timestamp}</timestamp>
 						</manifestEntries>
