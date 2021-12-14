@@ -23,7 +23,7 @@
 		<jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
 		<vaadin.widgetset.mode>local</vaadin.widgetset.mode>
 		<org.apache.metamodel.version>5.3.1</org.apache.metamodel.version>
-		<org.apache.logging.log4j.version>2.13.0</org.apache.logging.log4j.version>
+		<org.apache.logging.log4j.version>2.16.0</org.apache.logging.log4j.version>
 	</properties>
 	
 	<repositories>
